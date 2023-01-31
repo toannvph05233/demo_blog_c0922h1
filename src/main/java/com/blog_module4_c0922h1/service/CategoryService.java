@@ -12,9 +12,6 @@ public class CategoryService {
     @Autowired
     ICategoryRepo iCategoryRepo;
 
-    public Category findById(int id){
-        return iCategoryRepo.findById(id).get();
-    }
     public List<Category> getAll(){
         return (List<Category>) iCategoryRepo.findAll();
     }

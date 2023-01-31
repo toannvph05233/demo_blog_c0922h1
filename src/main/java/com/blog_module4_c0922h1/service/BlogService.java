@@ -21,4 +21,12 @@ public class BlogService {
         iBlogRepo.save(blog);
     }
 
+    public void delete(int id){
+        iBlogRepo.deleteById(id);
+    }
+
+    public Blog findById(int id){
+        return iBlogRepo.findById(id).get();
+    }
+
 }
