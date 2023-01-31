@@ -17,4 +17,8 @@ public class BlogService {
         return (List<Blog>) iBlogRepo.findAll();
     }
 
+    public void save(Blog blog){
+        iBlogRepo.save(blog);
+    }
+
 }

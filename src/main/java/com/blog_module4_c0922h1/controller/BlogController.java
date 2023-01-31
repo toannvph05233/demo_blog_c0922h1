@@ -1,19 +1,1 @@
-package com.blog_module4_c0922h1.controller;
-
-import com.blog_module4_c0922h1.service.BlogService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
-
-@Controller
-public class BlogController {
-    @Autowired
-    BlogService blogService;
-    @GetMapping("/blog")
-    public ModelAndView show(){
-        ModelAndView modelAndView = new ModelAndView("showBlog");
-        modelAndView.addObject("blogs",blogService.getAll());
-        return modelAndView;
-    }
-}
+package com.blog_module4_c0922h1.controller;import com.blog_module4_c0922h1.model.Blog;import com.blog_module4_c0922h1.model.Category;import com.blog_module4_c0922h1.service.BlogService;import com.blog_module4_c0922h1.service.CategoryService;import org.springframework.beans.factory.annotation.Autowired;import org.springframework.stereotype.Controller;import org.springframework.util.FileCopyUtils;import org.springframework.web.bind.annotation.GetMapping;import org.springframework.web.bind.annotation.ModelAttribute;import org.springframework.web.bind.annotation.PostMapping;import org.springframework.web.bind.annotation.RequestParam;import org.springframework.web.multipart.MultipartFile;import org.springframework.web.servlet.ModelAndView;import java.io.File;import java.io.IOException;@Controllerpublic class BlogController {    @Autowired    BlogService blogService;    @Autowired    CategoryService categoryService;    @GetMapping("/blogs")    public ModelAndView show(){        ModelAndView modelAndView = new ModelAndView("showBlog");        modelAndView.addObject("blogs",blogService.getAll());        return modelAndView;    }    @GetMapping("/create")    public ModelAndView showCreate(){        ModelAndView modelAndView = new ModelAndView("create");        modelAndView.addObject("categories", categoryService.getAll());        return modelAndView;    }    @PostMapping("/create")    public String create(@ModelAttribute Blog blog,                         @RequestParam int idCategory,                         @RequestParam MultipartFile fileImg){        String nameFile = fileImg.getOriginalFilename();        try {            FileCopyUtils.copy(fileImg.getBytes(),new File("/Users/johntoan98gmail.com/Desktop/Module 4/blog_module4_c0922h1/src/main/webapp/WEB-INF/img/" + nameFile));        } catch (Exception e) {            e.printStackTrace();        }        blog.setImg("/img/" + nameFile);        Category category = categoryService.findById(idCategory);        blog.setCategory(category);        blogService.save(blog);        return "redirect:/blogs";    }}
