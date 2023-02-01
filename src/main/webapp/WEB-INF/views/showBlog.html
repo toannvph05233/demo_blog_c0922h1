@@ -39,6 +39,8 @@
 </nav>
 
 <div class="container" style="margin-top:30px">
+<!--    <h1 th:text='${"Số view là : " + view.getValue()}'></h1>-->
+    <h1 th:text='${"Số view là : " + view}'></h1>
     <div class="row">
         <div class="col-sm-4" th:each="blog: ${blogs}">
             <h2 th:text="${blog.getTitle()}"></h2>
@@ -50,6 +52,12 @@
 
         </div>
     </div>
+    <br>
+    <hr>
+    <a th:if="${blogs.hasNext()}" th:href="@{/blogs(page=${blogs.getNumber()+1})}"> =>> </a>
+    <b th:text="${blogs.getNumber() + 1}"></b> / <b th:text="${blogs.getTotalPages()}"></b>
+    <a th:if="${blogs.hasPrevious()}" th:href="@{/blogs(page=${blogs.getNumber()-1})}"> <<= </a>
+
 </div>
 
 <div class="jumbotron text-center" style="margin-bottom:0">
